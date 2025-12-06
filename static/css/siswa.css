@@ -6,7 +6,7 @@ body {
   margin: 0;
   background:
     linear-gradient(to bottom, #1d4ed8, #1d4ed8),
-    url('/static/img/bg-sekolah.jpg') no-repeat center/cover;
+    url('../img/bg-sekolah.jpg') no-repeat center/cover;
   color: var(--text-dark);
   display: flex;
   flex-direction: column;

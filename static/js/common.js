@@ -2,6 +2,9 @@
    COMMON JAVASCRIPT UTILITIES
    ======================================== */
 
+// Constants
+const DATE_FORMAT_REGEX = /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/;
+
 /**
  * Format date to YYYY-MM-DD HH:MM:SS
  * @param {Date|string} dateInput - Date to format
@@ -11,10 +14,7 @@ function formatDate(dateInput) {
   if (!dateInput) return "-";
 
   // If already in correct format, return as is
-  if (
-    typeof dateInput === "string" &&
-      /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/.test(dateInput)
-  ) {
+  if (typeof dateInput === "string" && DATE_FORMAT_REGEX.test(dateInput)) {
     return dateInput;
   }
 

@@ -1,10 +1,10 @@
 {
   "name": "final-project-main",
-  "version": "1. 0.0",
+  "version": "1.0.0",
   "scripts": {
     "format:html": "prettier --write \"templates/**/*.html\"",
     "format:css": "prettier --write \"static/**/*.css\"",
-    "format:all": "prettier --write \"**/*.{html,css}\" --ignore-path . gitignore",
+    "format:all": "prettier --write \"**/*.{html,css}\" --ignore-path .gitignore",
     "lint:css": "stylelint \"static/**/*.css\"",
     "lint:css:fix": "stylelint \"static/**/*.css\" --fix",
     "lint:all": "npm run lint:css:fix && npm run format:all"
