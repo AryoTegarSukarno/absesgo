@@ -1,64 +1,3 @@
-{% extends "base.html" %}
-
-{% block title %}Dashboard Siswa{% endblock %}
-
-{% block extra_css %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/siswa.css') }}">
-{% endblock %}
-
-{% block extra_js %}
-<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
-<script src="{{ url_for('static', filename='js/siswa.js') }}"></script>
-{% endblock %}
-
-{% block content %}
-    <h1>Halo, {{ nama }}</h1>
-    <p class="intro">Scan QR yang ditampilkan guru untuk absen otomatis.</p>
-
-    <!-- CARD SCAN -->
-    <div class="card camera-area">
-      <video id="video" autoplay muted></video>
-      <canvas id="canvas" style="display: none"></canvas>
-      <p id="status">Status: menunggu scan...</p>
-      <div class="button-container">
-        <button id="btn-switch-camera" class="btn btn-refresh">
-          Ganti Kamera
-        </button>
-      </div>
-    </div>
-
-    <!-- CARD RIWAYAT -->
-    <div class="card">
-      <h2>Riwayat Absensi</h2>
-      <table id="absensiTable">
-        <tr>
-          <th>Nama</th>
-          <th>Kelas</th>
-          <th>Jurusan</th>
-          <th>Waktu</th>
-        </tr>
-        {% for h in history %}
-        <tr>
-          <td>{{ h.nama_siswa }}</td>
-          <td>{{ h.kelas }}</td>
-          <td>{{ h.jurusan }}</td>
-          <td>{{ h.waktu_absen }}</td>
-        </tr>
-        {% endfor %}
-      </table>
-
-      <div class="button-container">
-        <button id="btn-refresh-absensi" class="btn btn-refresh">
-          🔄 Refresh
-        </button>
-      </div>
-    </div>
-
-    <div class="logout">
-      <a href="/logout" class="btn btn-logout">Logout</a>
-    </div>
-
-    <script>
       const video = document.getElementById('video');
       const canvas = document.getElementById('canvas');
       const ctx = canvas.getContext('2d');
@@ -156,5 +95,3 @@
       // Inisialisasi halaman
       startCamera();
       requestAnimationFrame(scanLoop);
-    </script>
-{% endblock %}

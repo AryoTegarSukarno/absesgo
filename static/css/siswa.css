@@ -1,0 +1,228 @@
+/* Siswa Dashboard Specific Styles */
+:root {
+  --primary: #3484ff;
+  --primary-hover: #2d74e3;
+  --accent: #58d2ff;
+  --text-dark: #222;
+  --bg-gradient: linear-gradient(to bottom, #1d4ed8, #1d4ed8);
+  --radius: 0.75rem;
+  --shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.1);
+}
+
+* {
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  margin: 0;
+  background:
+    var(--bg-gradient),
+    url('/static/img/bg-sekolah.jpg') no-repeat center/cover;
+  color: var(--text-dark);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 1rem 4rem;
+  position: relative;
+  overflow-x: hidden;
+}
+
+@keyframes bubbleFloat {
+  0% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-30px) scale(1.05);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+  }
+}
+
+body::before,
+body::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  z-index: 0;
+  animation: bubbleFloat 8s ease-in-out infinite;
+}
+
+body::before {
+  width: 750px;
+  height: 750px;
+  bottom: -200px;
+  left: -180px;
+  animation-delay: 0s;
+}
+
+body::after {
+  width: 650px;
+  height: 650px;
+  top: 80px;
+  right: -200px;
+  animation-delay: 4s;
+}
+
+h1 {
+  color: white;
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  text-align: center;
+  z-index: 1;
+}
+
+p.intro {
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: #e0e0e0;
+  z-index: 1;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1.5rem;
+  width: 100%;
+  max-width: 45rem;
+  margin-bottom: 2rem;
+  z-index: 1;
+}
+
+.camera-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+video {
+  width: 100%;
+  max-width: 18rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  background: #000;
+}
+
+@media (max-width: 768px) {
+  video {
+    max-width: 15rem;
+  }
+  
+  h1 {
+    font-size: 2rem;
+  }
+}
+
+#status {
+  margin-top: 0.75rem;
+  font-weight: 600;
+  color: var(--primary);
+  text-align: center;
+}
+
+#scan-result {
+  margin-top: 0.75rem;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  text-align: center;
+  display: none;
+}
+
+#scan-result.success {
+  background: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+  display: block;
+}
+
+#scan-result.already-scanned {
+  background: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffeaa7;
+  display: block;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+table th {
+  background: var(--primary);
+  color: #fff;
+  font-size: 20px;
+  font-weight: 700;
+  text-align: center;
+  padding: 0.75rem;
+}
+
+table td {
+  border-bottom: 1px solid #ddd;
+  padding: 0.6rem;
+  text-align: center;
+}
+
+tr:nth-child(even) {
+  background: #f9fafc;
+}
+
+.btn {
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.8rem 1.25rem;
+  cursor: pointer;
+  font-weight: 700;
+  color: #fff;
+  transition:
+    background 0.3s ease,
+    transform 0.2s;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn-refresh {
+  background: var(--primary);
+}
+
+.btn-refresh:hover {
+  background: var(--primary-hover);
+}
+
+.btn-logout {
+  background: #dc3545;
+}
+
+.btn-logout:hover {
+  background: #c82333;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.logout {
+  margin-top: 1.5rem;
+  text-align: center;
+  z-index: 1;
+}
+
+select {
+  padding: 0.5rem 0.8rem;
+  margin: 0.2rem;
+  border-radius: 0.5rem;
+  border: 1px solid #ccc;
+  font-size: 0.9rem;
+}
