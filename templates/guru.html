@@ -1,0 +1,199 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard Guru{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/guru.css') }}">
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+      <!-- Header -->
+      <div class="header">
+        <h1>🎓 Dashboard Guru</h1>
+        <p>Selamat datang, <strong>{{ nama }}</strong></p>
+      </div>
+
+      <!-- Card QR Token -->
+      <div class="card">
+        <div class="card-header">
+          <h2><span class="card-icon">📱</span> Generate Token Absensi</h2>
+        </div>
+        <div class="qr-section">
+          <button id="btn-generate">
+            <span>🔐</span> Generate QR Token (5 menit)
+          </button>
+          <div id="qr-area">
+            <p style="color: var(--text-muted)">
+              Klik tombol di atas untuk membuat QR Code absensi
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card Absensi -->
+      <div class="card">
+        <div class="card-header">
+          <h2><span class="card-icon">📋</span> Riwayat Absensi</h2>
+        </div>
+
+        <!-- Table -->
+        <div class="table-container" id="absensiTableContainer">
+          <table id="absensiTable">
+            <thead>
+              <tr>
+                <th>NIS</th>
+                <th>Nama Siswa</th>
+                <th>Kelas</th>
+                <th>Jurusan</th>
+                <th>Waktu Absen</th>
+              </tr>
+            </thead>
+            <tbody id="absensiTableBody">
+              {% for a in absensi %}
+              <tr>
+                <td>{{ a.nis }}</td>
+                <td>{{ a.nama_siswa }}</td>
+                <td>{{ a.kelas }}</td>
+                <td>{{ a.jurusan }}</td>
+                <td>{{ a.waktu_absen }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+        <div class="last-update-time" id="lastUpdateTime">
+          Terakhir diupdate: {{ last_update_time }}
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="button-group">
+          <button id="btn-refresh-absensi" class="btn btn-primary">
+            <span class="refresh-icon">🔄</span> Refresh Data
+          </button>
+          <button id="btnExportExcel" class="btn btn-success">
+            <span>📥</span> Export Excel
+          </button>
+        </div>
+      </div>
+
+      <!-- Card CRUD Siswa -->
+      <div class="card">
+        <div class="card-header">
+          <h2><span class="card-icon">👥</span> Manajemen Data Siswa</h2>
+          <button class="btn btn-info" onclick="openModal('add')">
+            <span>➕</span> Tambah Siswa
+          </button>
+        </div>
+
+        <div id="alertContainer"></div>
+
+        <div class="table-container">
+          <table id="siswaTable">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>NIS</th>
+                <th>Nama Siswa</th>
+                <th>Jurusan</th>
+                <th>Kelas</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="siswaTableBody">
+              <tr>
+                <td colspan="7" style="text-align: center; padding: 2rem">
+                  <div class="loading-icon">⏳</div>
+                  Memuat data...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Logout -->
+      <div class="logout-container">
+        <a href="/logout" class="logout-btn"> <span>🚪</span> Logout </a>
+      </div>
+    </div>
+
+    <!-- Modal Form CRUD -->
+    <div id="siswaModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 id="modalTitle">Tambah Siswa</h2>
+          <span class="close" onclick="closeModal()">&times;</span>
+        </div>
+        <form id="siswaForm">
+          <input type="hidden" id="siswaId" />
+
+          <div class="form-group">
+            <label for="username">Username *</label>
+            <input
+              type="text"
+              id="username"
+              required
+              placeholder="Masukkan username"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="password">Password *</label>
+            <input
+              type="text"
+              id="password"
+              required
+              placeholder="Masukkan password"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="nis">NIS *</label>
+            <input type="text" id="nis" required placeholder="Masukkan NIS" />
+          </div>
+
+          <div class="form-group">
+            <label for="nama_siswa">Nama Siswa *</label>
+            <input
+              type="text"
+              id="nama_siswa"
+              required
+              placeholder="Masukkan nama lengkap"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="jurusan">Jurusan</label>
+            <input type="text" id="jurusan" placeholder="Contoh: RPL, TKJ" />
+          </div>
+
+          <div class="form-group">
+            <label for="kelas">Kelas</label>
+            <input type="text" id="kelas" placeholder="Contoh: XII RPL 1" />
+          </div>
+
+          <div class="button-group">
+            <button type="submit" class="btn btn-success" style="flex: 1">
+              <span>💾</span> Simpan
+            </button>
+            <button
+              type="button"
+              class="btn btn-danger"
+              onclick="closeModal()"
+              style="flex: 1"
+            >
+              <span>❌</span> Batal
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/guru.js') }}"></script>
+{% endblock %}
