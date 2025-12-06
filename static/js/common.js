@@ -8,12 +8,12 @@
  * @returns {string} Formatted date string
  */
 function formatDate(dateInput) {
-  if (!dateInput) return '-';
+  if (!dateInput) return "-";
 
   // If already in correct format, return as is
   if (
-    typeof dateInput === 'string' &&
-    /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/.test(dateInput)
+    typeof dateInput === "string" &&
+      /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/.test(dateInput)
   ) {
     return dateInput;
   }
@@ -23,11 +23,11 @@ function formatDate(dateInput) {
     if (isNaN(d)) return String(dateInput);
 
     const year = d.getFullYear();
-    const month = String(d.getMonth() + 1).padStart(2, '0');
-    const day = String(d.getDate()).padStart(2, '0');
-    const hours = String(d.getHours()).padStart(2, '0');
-    const minutes = String(d.getMinutes()).padStart(2, '0');
-    const seconds = String(d.getSeconds()).padStart(2, '0');
+    const month = String(d.getMonth() + 1).padStart(2, "0");
+    const day = String(d.getDate()).padStart(2, "0");
+    const hours = String(d.getHours()).padStart(2, "0");
+    const minutes = String(d.getMinutes()).padStart(2, "0");
+    const seconds = String(d.getSeconds()).padStart(2, "0");
 
     return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
   } catch (e) {
@@ -40,17 +40,17 @@ function formatDate(dateInput) {
  * @param {string} message - Message to display
  * @param {string} type - Alert type ('success' or 'error')
  */
-function showAlert(message, type = 'success') {
+function showAlert(message, type = "success") {
   // Ensure alert container exists
-  let alertContainer = document.getElementById('alertContainer');
+  let alertContainer = document.getElementById("alertContainer");
   if (!alertContainer) {
     alertContainer = createAlertContainer();
   }
 
-  const alertClass = type === 'success' ? 'alert-success' : 'alert-error';
-  const icon = type === 'success' ? '✅' : '❌';
+  const alertClass = type === "success" ? "alert-success" : "alert-error";
+  const icon = type === "success" ? "\u2705" : "\u274C";
 
-  const alertDiv = document.createElement('div');
+  const alertDiv = document.createElement("div");
   alertDiv.className = `alert ${alertClass}`;
   alertDiv.innerHTML = `
     <span>${icon}</span>
@@ -60,11 +60,14 @@ function showAlert(message, type = 'success') {
   alertContainer.appendChild(alertDiv);
 
   // Auto-remove after 5 seconds
-  setTimeout(() => {
-    if (alertDiv.parentNode) {
-      alertDiv.remove();
-    }
-  }, 5000);
+  setTimeout(
+    () => {
+      if (alertDiv.parentNode) {
+        alertDiv.remove();
+      }
+    },
+    5000
+  );
 }
 
 /**
@@ -72,15 +75,15 @@ function showAlert(message, type = 'success') {
  * @returns {HTMLElement} Alert container element
  */
 function createAlertContainer() {
-  let container = document.getElementById('alertContainer');
+  let container = document.getElementById("alertContainer");
   if (!container) {
-    container = document.createElement('div');
-    container.id = 'alertContainer';
-    container.style.position = 'fixed';
-    container.style.top = '1rem';
-    container.style.right = '1rem';
-    container.style.zIndex = '9999';
-    container.style.maxWidth = '400px';
+    container = document.createElement("div");
+    container.id = "alertContainer";
+    container.style.position = "fixed";
+    container.style.top = "1rem";
+    container.style.right = "1rem";
+    container.style.zIndex = "9999";
+    container.style.maxWidth = "400px";
     document.body.appendChild(container);
   }
   return container;
@@ -95,11 +98,8 @@ function createAlertContainer() {
 async function apiRequest(url, options = {}) {
   try {
     const response = await fetch(url, {
-      headers: {
-        'Content-Type': 'application/json',
-        ...options.headers,
-      },
-      ...options,
+      headers: { "Content-Type": "application/json", ...options.headers },
+      ...options
     });
 
     if (!response.ok) {
@@ -108,7 +108,7 @@ async function apiRequest(url, options = {}) {
 
     return await response.json();
   } catch (error) {
-    console.error('API Request Error:', error);
+    console.error("API Request Error:", error);
     throw error;
   }
 }
@@ -137,8 +137,8 @@ function debounce(func, wait) {
  * @returns {string} Formatted number string
  */
 function formatNumber(num) {
-  if (typeof num !== 'number') return num;
-  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  if (typeof num !== "number") return num;
+  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
 
 /**
@@ -148,13 +148,13 @@ function formatNumber(num) {
  */
 function escapeHtml(text) {
   const map = {
-    '&': '&amp;',
-    '<': '&lt;',
-    '>': '&gt;',
-    '"': '&quot;',
-    "'": '&#039;',
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#039;"
   };
-  return text.replace(/[&<>"']/g, (m) => map[m]);
+  return text.replace(/[&<>"']/g, m => map[m]);
 }
 
 /**
@@ -164,17 +164,15 @@ function escapeHtml(text) {
  */
 function isInViewport(element) {
   const rect = element.getBoundingClientRect();
-  return (
-    rect.top >= 0 &&
+  return rect.top >= 0 &&
     rect.left >= 0 &&
     rect.bottom <=
       (window.innerHeight || document.documentElement.clientHeight) &&
-    rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-  );
+    rect.right <= (window.innerWidth || document.documentElement.clientWidth);
 }
 
 // Export functions for use in other modules (if using modules)
-if (typeof module !== 'undefined' && module.exports) {
+if (typeof module !== "undefined" && module.exports) {
   module.exports = {
     formatDate,
     showAlert,
@@ -183,6 +181,6 @@ if (typeof module !== 'undefined' && module.exports) {
     formatNumber,
     escapeHtml,
     isInViewport,
-    createAlertContainer,
+    createAlertContainer
   };
 }

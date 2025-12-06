@@ -7,10 +7,10 @@ class SiswaDashboard {
    * Constructor - Initialize camera and canvas
    */
   constructor() {
-    this.video = document.getElementById('video');
-    this.canvas = document.getElementById('canvas');
-    this.ctx = this.canvas.getContext('2d');
-    this.statusEl = document.getElementById('status');
+    this.video = document.getElementById("video");
+    this.canvas = document.getElementById("canvas");
+    this.ctx = this.canvas.getContext("2d");
+    this.statusEl = document.getElementById("status");
     this.currentStream = null;
     this.usingFrontCamera = false;
     this.scanLoopRunning = false;
@@ -20,11 +20,11 @@ class SiswaDashboard {
    * Initialize dashboard
    */
   init() {
-    console.log('🚀 Initializing Siswa Dashboard...');
+    console.log("\uD83D\uDE80 Initializing Siswa Dashboard...");
     this.bindEvents();
     this.startCamera();
     this.startScanLoop();
-    console.log('✅ Siswa Dashboard initialized successfully');
+    console.log("\u2705 Siswa Dashboard initialized successfully");
   }
 
   /**
@@ -32,15 +32,15 @@ class SiswaDashboard {
    */
   bindEvents() {
     // Switch camera button
-    const btnSwitchCamera = document.getElementById('btn-switch-camera');
+    const btnSwitchCamera = document.getElementById("btn-switch-camera");
     if (btnSwitchCamera) {
-      btnSwitchCamera.addEventListener('click', () => this.switchCamera());
+      btnSwitchCamera.addEventListener("click", () => this.switchCamera());
     }
 
     // Refresh absensi button
-    const btnRefresh = document.getElementById('btn-refresh-absensi');
+    const btnRefresh = document.getElementById("btn-refresh-absensi");
     if (btnRefresh) {
-      btnRefresh.addEventListener('click', () => this.refreshAbsensi());
+      btnRefresh.addEventListener("click", () => this.refreshAbsensi());
     }
   }
 
@@ -49,7 +49,7 @@ class SiswaDashboard {
    */
   stopCamera() {
     if (this.currentStream) {
-      this.currentStream.getTracks().forEach((track) => track.stop());
+      this.currentStream.getTracks().forEach(track => track.stop());
       this.currentStream = null;
     }
   }
@@ -57,7 +57,7 @@ class SiswaDashboard {
   /**
    * Start camera with facing mode
    */
-  startCamera(facingMode = 'environment') {
+  startCamera(facingMode = "environment") {
     this.stopCamera();
 
     navigator.mediaDevices
@@ -65,18 +65,18 @@ class SiswaDashboard {
         video: {
           facingMode: facingMode,
           width: { ideal: 1280 },
-          height: { ideal: 720 },
-        },
+          height: { ideal: 720 }
+        }
       })
-      .then((stream) => {
+      .then(stream => {
         this.video.srcObject = stream;
         this.currentStream = stream;
-        this.usingFrontCamera = facingMode === 'user';
-        this.video.setAttribute('playsinline', true);
-        this.updateStatus('Status: menunggu scan...', 'var(--primary)');
+        this.usingFrontCamera = facingMode === "user";
+        this.video.setAttribute("playsinline", true);
+        this.updateStatus("Status: menunggu scan...", "var(--primary)");
       })
-      .catch((err) => {
-        this.updateStatus('Gagal akses kamera: ' + err.message, 'red');
+      .catch(err => {
+        this.updateStatus("Gagal akses kamera: " + err.message, "red");
       });
   }
 
@@ -84,7 +84,7 @@ class SiswaDashboard {
    * Switch camera between front and back
    */
   switchCamera() {
-    const newFacingMode = this.usingFrontCamera ? 'environment' : 'user';
+    const newFacingMode = this.usingFrontCamera ? "environment" : "user";
     this.startCamera(newFacingMode);
   }
 
@@ -135,37 +135,43 @@ class SiswaDashboard {
    */
   async handleQRCode(token) {
     this.updateStatus(
-      'Token ditemukan: ' + token.slice(0, 20) + '...',
-      'var(--primary)'
+      "Token ditemukan: " + token.slice(0, 20) + "...",
+      "var(--primary)"
     );
 
     try {
-      const data = await apiRequest('/scan_token', {
-        method: 'POST',
-        body: JSON.stringify({ token: token }),
+      const data = await apiRequest("/scan_token", {
+        method: "POST",
+        body: JSON.stringify({ token: token })
       });
 
       const message = data.message || JSON.stringify(data);
-      const color = data.status === 'success' ? 'green' : 'red';
+      const color = data.status === "success" ? "green" : "red";
       this.updateStatus(message, color);
 
-      if (data.status === 'success') {
+      if (data.status === "success") {
         // Refresh data absensi setelah scan berhasil
-        setTimeout(() => {
-          const btnRefresh = document.getElementById('btn-refresh-absensi');
-          if (btnRefresh) {
-            btnRefresh.click();
-          }
-        }, 1500);
+        setTimeout(
+          () => {
+            const btnRefresh = document.getElementById("btn-refresh-absensi");
+            if (btnRefresh) {
+              btnRefresh.click();
+            }
+          },
+          1500
+        );
       }
     } catch (error) {
-      this.updateStatus('Error kirim token: ' + error, 'red');
+      this.updateStatus("Error kirim token: " + error, "red");
     }
 
     // Reset status after 3 seconds
-    setTimeout(() => {
-      this.updateStatus('Menunggu scan...', 'var(--primary)');
-    }, 3000);
+    setTimeout(
+      () => {
+        this.updateStatus("Menunggu scan...", "var(--primary)");
+      },
+      3000
+    );
   }
 
   /**
@@ -195,7 +201,7 @@ class SiswaDashboard {
 }
 
 // Initialize dashboard when DOM is ready
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener("DOMContentLoaded", function() {
   window.dashboard = new SiswaDashboard();
   window.dashboard.init();
 });
